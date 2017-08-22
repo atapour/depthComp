@@ -41,5 +41,6 @@ The results are written in the 'Examples' directory:
 The file "data.txt" contains information about run-time and number of cases.
 
 Developed for reasearch in:
+
 [DepthComp: Real-time Depth Image Completion Based on Prior Semantic Scene Segmentation](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf)
 (A. Atapour-Abarghouei, T.P. Breckon), In Proc. British Machine Vision Conference, 2017. [[pdf](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf)] [[demo](https://vimeo.com/224513553)]
