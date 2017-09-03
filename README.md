@@ -42,7 +42,7 @@ The output results are written in the 'Examples' directory:
 
 [![Video Example](http://i.imgur.com/7YTMFQp.png)](https://vimeo.com/224513553 "Video Example - Click to Play")
 
-Video Example - click to play
+Video Example - click image above to play.
 
 ---
 
@@ -61,8 +61,7 @@ Video Example - click to play
   month = 	 {September},
   publisher =    {BMVA},
   keywords =     {depth filling, RGB-D, surface relief, hole filling, surface completion, 3D texture, depth completion, depth map, disparity hole filling},
-  url = 	 {http://community.dur.ac.uk/toby.breckon/publications/papers/abarghouei17depthcomp.pdf},
-  comment =   {<a class="demolink" href="https://vimeo.com/224513553">demo</a>},
+  url = 	 {http://community.dur.ac.uk/toby.breckon/publications/papers/abarghouei17depthcomp.pdf}
 }
 ```
 ---
