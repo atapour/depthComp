@@ -3,7 +3,7 @@
 
  Requirements: depth image / segmented image
 
- Usage: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
+ Implementation of DepthComp - Atapour-Abarghouei / Breckon, Proc. BMVC 2017.
 
  Author : Amir Atapour-Abarghouei, amir.atapour-abarghouei@durham.ac.uk
 
