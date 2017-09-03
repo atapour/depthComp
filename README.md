@@ -15,7 +15,7 @@ Produces a completed depth (disparity) map output image based on a depth (dispar
 * The input depth map will be preprocessed beforehand and small speckles of invalid depth will be removed (see code for settings).
 * The input segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated from RGB images via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
 * The quality of the output depends on the quality of the segmented image.
-* The code can be run using the test harness: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
+* The code can be run using the test harness: ./depthComp <path_to_depth_image> <path_to_segmented_image>
 * Example images are provided in the Examples sub-directory.
 * A generic interface C++ object is provided within the depthComp.{cpp|.hpp} files.
 
