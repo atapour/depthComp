@@ -11,10 +11,12 @@ _"We address plausible hole filling in depth images in a computationally lightwe
 ---
 
 ## Reference implementation:
-* The input depth map will be preprocessed beforehand and small speckles of invalid depth will be removed.
-* An innout segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
+Produces a completed depth (disparity) map output image based on a depth (disparity) input with holes and a corresponding segmented label image.
+* The input depth map will be preprocessed beforehand and small speckles of invalid depth will be removed (see code for settings).
+* The input segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated from RGB images via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
 * The quality of the output depends on the quality of the segmented image.
-*  The code can be run using the test harness: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
+* The code can be run using the test harness: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
+* Example images are provided in the Examples sub-directory.
 * A generic interface C++ object is provided within the deepFill.{cpp|.h} files.
 
 ```
@@ -28,10 +30,10 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./holeFilling ./../Examples/plasic-disp-(hole.png ./../Examples/plastic-label.png)
+$ ./holeFilling ./../Examples/city-disp.png ./../Examples/city-label.png)
 ```
 
-The output results are written in the 'Examples' directory:
+The output results are written in the 'Examples' directory (with depth output using the same quantization range as the input):
 * the file with the suffix "-PROCESSED" is the despeckled depth image.
 * the file with the suffix "-FILLED" is the filled depth image.
 * The file "data.txt" contains information about run-time and number of cases.
