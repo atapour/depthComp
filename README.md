@@ -12,7 +12,7 @@ _"We address plausible hole filling in depth images in a computationally lightwe
 
 ## Reference implementation:
 * The input depth map will be preprocessed beforehand and small speckles of invalid depth will be removed.
-* A segmented image produced by any method is required as an input in addition to the depth - examples can be generated from [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
+* An innout segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
 * The quality of the output depends on the quality of the segmented image.
 *  The code can be run using the test harness: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
 * A generic interface C++ object is provided within the deepFill.{cpp|.h} files.
