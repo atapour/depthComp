@@ -1,10 +1,12 @@
-/* 
+/*
  DepthComp : efficient depth filling appraoch built on segmentation
 
  Requirements: depth image / segmented image
-					
- Usage: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
 
+ Usage: ./depthComp <path_to_depth_image> <path_to_segmented_image>
+
+ Implementation of DepthComp - Atapour-Abarghouei / Breckon, Proc. BMVC 2017.
+ 
  Author : Amir Atapour-Abarghouei, amir.atapour-abarghouei@durham.ac.uk
 
  Copyright (c) 2017 Engineering and Computing Sciences, Durham University
@@ -13,7 +15,7 @@
 ***********************************************************************************
 */
 
-#include "deepFill.h"
+#include "depthComp.hpp"
 
 
 using namespace cv;
@@ -44,7 +46,7 @@ int main( int argc, char** argv ){
 	normalize(labelRszd, labelRszd, 0, 255, CV_MINMAX);
 	cvtColor(labelRszd, labelRszd, CV_BGR2GRAY);
 
-    DepthFill holes;
+    	DepthComp holes;
 
 	depthIn = holes.preProcess(depthIn, labelRszd);
 
