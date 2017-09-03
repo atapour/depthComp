@@ -17,7 +17,7 @@ Produces a completed depth (disparity) map output image based on a depth (dispar
 * The quality of the output depends on the quality of the segmented image.
 * The code can be run using the test harness: ./holeFilling <path_to_depth_image> <path_to_segmented_image>
 * Example images are provided in the Examples sub-directory.
-* A generic interface C++ object is provided within the deepFill.{cpp|.h} files.
+* A generic interface C++ object is provided within the depthComp.{cpp|.hpp} files.
 
 ```
 
@@ -30,7 +30,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./holeFilling ./../Examples/city-disp.png ./../Examples/city-label.png)
+$ ./depthComp ./../Examples/city-disp.png ./../Examples/city-label.png)
 ```
 
 The output results are written in the 'Examples' directory (with depth output using the same quantization range as the input):
@@ -40,7 +40,7 @@ The output results are written in the 'Examples' directory (with depth output us
 
 ---
 
-## Example
+## Example:
 
 [![Video Example](http://i.imgur.com/7YTMFQp.png)](https://vimeo.com/224513553 "Video Example - Click to Play")
 
