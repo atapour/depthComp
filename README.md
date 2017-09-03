@@ -2,9 +2,10 @@
 
 Requires [OpenCV](http://www.opencv.org), C++, and CMake.
 
-Method: [Atapour-Abarghouei, Breckon, BMVC 2017](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf).
+Method:
 
-_"We address plausible hole filling in depth images in a computationally lightweight methodology that leverages recent advances in semantic scene segmentation. Firstly, we perform such segmentation over a co-registered color image, commonly available from stereo depth sources, and non-parametrically fill missing depth values based on a multipass basis within each semantically labeled scene object. Within this formulation, we identify a bounded set of explicit completion cases in a grammar inspired context that can be performed effectively and efficiently to provide highly plausible localized depth continuity via a case-specific non-parametric completion approach. Results demonstrate that this approach has complexity and efficiency comparable to conventional interpolation techniques but with accuracy analogous to contemporary depth filling approaches. Furthermore, we show it to be capable of fine depth relief completion beyond that of both contemporary approaches in the field and computationally comparable interpolation strategies."_ [[Atapour-Abarghouei, Breckon, BMVC 2017](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf)]
+_"We address plausible hole filling in depth images in a computationally lightweight methodology that leverages recent advances in semantic scene segmentation. Firstly, we perform such segmentation over a co-registered color image, commonly available from stereo depth sources, and non-parametrically fill missing depth values based on a multipass basis within each semantically labeled scene object. Within this formulation, we identify a bounded set of explicit completion cases in a grammar inspired context that can be performed effectively and efficiently to provide highly plausible localized depth continuity via a case-specific non-parametric completion approach. Results demonstrate that this approach has complexity and efficiency comparable to conventional interpolation techniques but with accuracy analogous to contemporary depth filling approaches. Furthermore, we show it to be capable of fine depth relief completion beyond that of both contemporary approaches in the field and computationally comparable interpolation strategies."_
+[[Atapour-Abarghouei, Breckon, BMVC 2017](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf)]
 
 ---
 
