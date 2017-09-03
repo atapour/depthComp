@@ -2,6 +2,8 @@
 
 Requires [OpenCV](http://www.opencv.org), C++, and CMake.
 
+![](https://i.imgur.com/96QX8o3.jpg)
+
 ## Method:
 
 _"We address plausible hole filling in depth images in a computationally lightweight methodology that leverages recent advances in semantic scene segmentation. Firstly, we perform such segmentation over a co-registered color image, commonly available from stereo depth sources, and non-parametrically fill missing depth values based on a multipass basis within each semantically labeled scene object. Within this formulation, we identify a bounded set of explicit completion cases in a grammar inspired context that can be performed effectively and efficiently to provide highly plausible localized depth continuity via a case-specific non-parametric completion approach. Results demonstrate that this approach has complexity and efficiency comparable to conventional interpolation techniques but with accuracy analogous to contemporary depth filling approaches. Furthermore, we show it to be capable of fine depth relief completion beyond that of both contemporary approaches in the field and computationally comparable interpolation strategies."_
@@ -41,8 +43,7 @@ The output results are written in the 'Examples' directory (with depth output us
 ---
 
 ## Example:
-
-[![Video Example](http://i.imgur.com/7YTMFQp.png)](https://vimeo.com/224513553 "Video Example - Click to Play")
+[![Video Example](https://i.imgur.com/ZlOPibl.jpg)](https://vimeo.com/224513553 "Video Example - Click to Play")
 
 Video Example - click image above to play.
 
