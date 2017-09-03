@@ -6,7 +6,7 @@
  Usage: ./depthComp <path_to_depth_image> <path_to_segmented_image>
 
  Implementation of DepthComp - Atapour-Abarghouei / Breckon, Proc. BMVC 2017.
- 
+
  Author : Amir Atapour-Abarghouei, amir.atapour-abarghouei@durham.ac.uk
 
  Copyright (c) 2017 Engineering and Computing Sciences, Durham University
@@ -97,7 +97,7 @@ int main( int argc, char** argv ){
 			myfile << "\nnumber of case 12 holes = \t" << holes.case12;
 
 			myfile <<"\n\nThe TIME:\n";
-			myfile << "Elapsed time is :  " << std::chrono::duration_cast<ns>(diff).count()<< " microseconds " << "\n\n";
+			myfile << "Elapsed time is :  " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count()<< " milliseconds " << "\n\n";
 
 			myfile <<"********************************************************** RUN (( " << holes.times << " )) *************************************************************\n\n\n\n\n\n";
 
