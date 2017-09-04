@@ -64,11 +64,11 @@ int main( int argc, char** argv ){
 
 								// define depth completion object
 
-								DepthComp holes;
+								DepthComp completer;
 
 								// perform pre-processing and write output to file
 
-								depthIn = holes.preProcess(depthIn, labelRszd, true);
+								depthIn = completer.preProcess(depthIn, labelRszd, true);
 								writeOutputImg(argv[1], "-PROCESSED", depthIn);
 
 								//to write time and result information to a file
@@ -79,12 +79,12 @@ int main( int argc, char** argv ){
 								// row-wise and then column-wise (with latter being rotation of former)
 								// with final secondary row-wise pass if needed
 
-								while((holes.times == 0) || ((holes.times == 1) && (holes.holesExist == 1)) ||
-														((holes.times == 2) && (holes.holesExist == 2))) {
+								while((completer.times == 0) || ((completer.times == 1) && (completer.holesExist == 1)) ||
+														((completer.times == 2) && (completer.holesExist == 2))) {
 
 																// we are running the same filling process one (more) time
 
-																holes.times++;
+																completer.times++;
 
 																// get start time
 
@@ -92,7 +92,7 @@ int main( int argc, char** argv ){
 
 																// perform identification and filling of holes - one pass
 
-																depthIn = holes.identFillHoles(depthIn, labelRszd);
+																depthIn = completer.identFillHoles(depthIn, labelRszd);
 
 																// get end time
 
@@ -103,32 +103,32 @@ int main( int argc, char** argv ){
 
 																if(myfile.is_open()) {
 
-																								myfile <<"********************************************************** RUN (( " << holes.times << " )) *************************************************************\n\n";
+																								myfile <<"********************************************************** RUN (( " << completer.times << " )) *************************************************************\n\n";
 
 																								myfile << "Important Information\n";
-																								myfile << "For depth image \"" << argv[1] << "\" and segmented image \"" << argv[2] << "\" in the run number " << holes.times << endl;
+																								myfile << "For depth image \"" << argv[1] << "\" and segmented image \"" << argv[2] << "\" in the run number " << completer.times << endl;
 
 																								myfile << "\nIn the image, the number of ROWS is :  " << "\t\t\t" << depthIn.rows << "\n\t\tAnd the number of COLUMNS is : " << "\t\t\t" << depthIn.cols << endl;
 
 
-																								myfile <<"\nThe frequency of the cases in run number" << holes.times << endl;
-																								myfile << "\nnumber of case 1  holes = \t" << holes.case1;
-																								myfile << "\nnumber of case 2  holes = \t" << holes.case2;
-																								myfile << "\nnumber of case 3  holes = \t" << holes.case3;
-																								myfile << "\nnumber of case 4  holes = \t" << holes.case4;
-																								myfile << "\nnumber of case 5  holes = \t" << holes.case5;
-																								myfile << "\nnumber of case 6  holes = \t" << holes.case6;
-																								myfile << "\nnumber of case 7  holes = \t" << holes.case7;
-																								myfile << "\nnumber of case 8  holes = \t" << holes.case8;
-																								myfile << "\nnumber of case 9  holes = \t" << holes.case9;
-																								myfile << "\nnumber of case 10 holes = \t" << holes.case10;
-																								myfile << "\nnumber of case 11 holes = \t" << holes.case11;
-																								myfile << "\nnumber of case 12 holes = \t" << holes.case12;
+																								myfile <<"\nThe frequency of the cases in run number" << completer.times << endl;
+																								myfile << "\nnumber of case 1  holes = \t" << completer.case1;
+																								myfile << "\nnumber of case 2  holes = \t" << completer.case2;
+																								myfile << "\nnumber of case 3  holes = \t" << completer.case3;
+																								myfile << "\nnumber of case 4  holes = \t" << completer.case4;
+																								myfile << "\nnumber of case 5  holes = \t" << completer.case5;
+																								myfile << "\nnumber of case 6  holes = \t" << completer.case6;
+																								myfile << "\nnumber of case 7  holes = \t" << completer.case7;
+																								myfile << "\nnumber of case 8  holes = \t" << completer.case8;
+																								myfile << "\nnumber of case 9  holes = \t" << completer.case9;
+																								myfile << "\nnumber of case 10 holes = \t" << completer.case10;
+																								myfile << "\nnumber of case 11 holes = \t" << completer.case11;
+																								myfile << "\nnumber of case 12 holes = \t" << completer.case12;
 
 																								myfile <<"\n\nThe TIME:\n";
 																								myfile << "Elapsed time is :  " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count()<< " milliseconds " << "\n\n";
 
-																								myfile <<"********************************************************** RUN (( " << holes.times << " )) *************************************************************\n\n\n\n\n\n";
+																								myfile <<"********************************************************** RUN (( " << completer.times << " )) *************************************************************\n\n\n\n\n\n";
 
 																}
 
@@ -141,26 +141,26 @@ int main( int argc, char** argv ){
 
 																																if(depthIn.at<uchar>(i,j) == 0) { // checking to see if holes remain
 
-																																								if (holes.times == 1) { // the thing has been run ONCE and now we have to flip it
+																																								if (completer.times == 1) { // the thing has been run ONCE and now we have to flip it
 
-																																																holes.holesExist = 1; // this means holes still exist after the FIRST run
+																																																completer.holesExist = 1; // this means holes still exist after the FIRST run
 
 																																																goto nestBreak; //goto is used to break out of a nested loop
 
 																																								} // end of if for when the thing has been run ONCE and we have to flip it
 
 
-																																								else if (holes.times == 2) { // the thing has been run TWICE and flipped already so we now flip it back
+																																								else if (completer.times == 2) { // the thing has been run TWICE and flipped already so we now flip it back
 
-																																																holes.holesExist = 2; // this means holes still exist after the SECOND run
+																																																completer.holesExist = 2; // this means holes still exist after the SECOND run
 
 																																																goto nestBreak; //goto is used to break out of a nested loop
 
 																																								} // end of else of for when the thing has been run TWICE and flipped already so we now flip it back
 
-																																								else if (holes.times == 3) { // the thing has been run THREE times and flipped twice already
+																																								else if (completer.times == 3) { // the thing has been run THREE times and flipped twice already
 
-																																																holes.holesExist = 3; // this means holes still exist after the SECOND run
+																																																completer.holesExist = 3; // this means holes still exist after the SECOND run
 
 																																																goto nestBreak; //goto is used to break out of a nested loop
 
@@ -173,14 +173,14 @@ int main( int argc, char** argv ){
 
 nestBreak:
 
-																if((holes.times == 1) && (holes.holesExist == 0)) { // this means it has been run once and all holes are FILLED before any flipping
+																if((completer.times == 1) && (completer.holesExist == 0)) { // this means it has been run once and all holes are FILLED before any flipping
 
 																								printf("process was run once only and ALL holes are filled.\n");
 
 																} // end of else if for when it has been run once and all holes are FILLED before any flipping
 
 
-																else if((holes.times == 1) && (holes.holesExist == 1)) {
+																else if((completer.times == 1) && (completer.holesExist == 1)) {
 																								// this means it has been run once and now we must flip to do column-wise
 
 
@@ -193,7 +193,7 @@ nestBreak:
 
 																} // end of if for when it has been run once and now we must flip
 
-																else if((holes.times == 2) && (holes.holesExist == 2)) {
+																else if((completer.times == 2) && (completer.holesExist == 2)) {
 																								// this means it has been run twice and holes still exist and now we must
 																								// flip again for for a secondary (final) row-wise pass
 
@@ -205,7 +205,7 @@ nestBreak:
 
 																} // end of else if for when it has been run twice and holes still exist and now we must flip
 
-																else if((holes.times == 2) && (holes.holesExist == 1)) {
+																else if((completer.times == 2) && (completer.holesExist == 1)) {
 																								// this means it has been run twice and all holes are FILLED and now we must flip back
 
 																								// flipping all image counter-clockwise
@@ -216,7 +216,7 @@ nestBreak:
 
 																} // end of else if for when it has been run twice and all holes are FILLED and now we must flip
 
-																else if((holes.times == 3) && (holes.holesExist == 3)) { // this means it has been run THREE and holes still exist
+																else if((completer.times == 3) && (completer.holesExist == 3)) { // this means it has been run THREE and holes still exist
 
 																								// flipping all image clockwise
 																								transpose(depthIn, depthIn);
@@ -231,7 +231,7 @@ nestBreak:
 
 																} // end of else if for when it has been run THREE and holes still exist
 
-																else if((holes.times == 3) && (holes.holesExist == 2)) { // this means it has been run THREE and holes still exist
+																else if((completer.times == 3) && (completer.holesExist == 2)) { // this means it has been run THREE and holes still exist
 
 																								// flipping all image clockwise
 																								transpose(depthIn, depthIn);
