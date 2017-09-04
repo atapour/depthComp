@@ -50,9 +50,9 @@ using namespace std;
 
 class DepthComp {
 private:
+
 int holeFound;
 
-public:
 //counting case numbers
 
 int case1;
@@ -72,11 +72,17 @@ int case12;
 int holesExist;     // used to check if holes still exist after each run
 int times;          // shows how many times we have iterated over the image
 
+// worker function to perform each pass of the completion process
+
+Mat identFillHolesPass(Mat depthIn, const Mat& labelIn);
+
+public:
+
 DepthComp();
 ~DepthComp();
 
 // perform pre-processing on the depth image prior to completion
-// depthIn - input depth
+// depthIn - input depth (N.B. modified inplace)
 // labelIn - input segmented label image
 // depthNormalize - perform depth normalization (stretching) for visualization
 // return value - pre-processed depth image
@@ -84,11 +90,12 @@ DepthComp();
 Mat preProcess(Mat depthIn, const Mat& labelIn, bool depthNormalize=true);
 
 // perform the identification and filling of depth holes
-// depthIn - input depth
-// labelIn - input segmented label image
+// depthIn - input depth (N.B. modified inplace)
+// labelIn - input segmented label image (N.B. modified inplace)
+// logStats - log the statistics of the completion process to file data.txt
 // return value - completed output depth image
 
-Mat identFillHoles(Mat depthIn, const Mat& labelIn);
+Mat identFillHoles(Mat depthIn, const Mat labelIn, bool logStats=false);
 
 };
 
