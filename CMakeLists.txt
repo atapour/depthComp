@@ -8,8 +8,6 @@ IF ( UNIX )
 ENDIF ( UNIX )
 
 find_package(OpenCV REQUIRED)
-find_package(Threads REQUIRED)
-find_package(OpenGL REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -17,8 +15,4 @@ set(SOURCE_FILES main.cpp depthComp.cpp)
 
 add_executable(depthComp main.cpp depthComp.cpp)
 
-target_link_libraries (depthComp ${OpenCV_LIBS}
-        ${GLUT_LIBRARY}
-        ${OPENGL_LIBRARIES}
-        ${CMAKE_THREAD_LIBS_INIT}
-        )
+target_link_libraries (depthComp ${OpenCV_LIBS})
