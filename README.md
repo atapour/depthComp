@@ -35,7 +35,7 @@ $ make
 $ ./depthComp ./../Examples/city1-depth.png ./../Examples/city1-seg.png)
 ```
 
-The output results are written in the 'Examples' directory (with depth output using the same quantization range as the input):
+The output results are written in the 'Examples' directory:
 * the file with the suffix "-PROCESSED" is the despeckled depth image.
 * the file with the suffix "-FILLED" is the filled depth image.
 * The file "data.txt" contains information about run-time and number of cases.

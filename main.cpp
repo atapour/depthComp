@@ -35,7 +35,9 @@ void writeOutputImg(const String& imgName, const String& sufix, const Mat& mat)
 
 int main( int argc, char** argv ){
 
-								Mat depthIn, labelIn, labelRszd;
+								Mat depthIn; 						// input depth image (with holes)
+								Mat labelIn, labelRszd; // input segmented label image
+								Mat depthOut ;					// output depth image (completed)
 
 								// check arguments and read in images
 
@@ -50,6 +52,11 @@ int main( int argc, char** argv ){
 																								cout << "\nCannot open file " << argv[2] << endl;
 																								exit(-1);
 																}
+								} else {
+
+									cout << "Usage: ./depthComp <depth_image> <segmented_image>" << endl;
+									exit(-1);
+
 								}
 
 								// resize label image to depth image size (just in case different)
@@ -71,193 +78,15 @@ int main( int argc, char** argv ){
 								depthIn = completer.preProcess(depthIn, labelRszd, true);
 								writeOutputImg(argv[1], "-PROCESSED", depthIn);
 
-								//to write time and result information to a file
-								ofstream myfile;
-								myfile.open ("data.txt", ios::ate );
+								// perform depthComp based depth completion
+								// recording stats of the process out to data.txt
 
-								// the very main while loop to run several times with rotated image
-								// row-wise and then column-wise (with latter being rotation of former)
-								// with final secondary row-wise pass if needed
-
-								while((completer.times == 0) || ((completer.times == 1) && (completer.holesExist == 1)) ||
-														((completer.times == 2) && (completer.holesExist == 2))) {
-
-																// we are running the same filling process one (more) time
-
-																completer.times++;
-
-																// get start time
-
-																auto start = get_time::now();
-
-																// perform identification and filling of holes - one pass
-
-																depthIn = completer.identFillHoles(depthIn, labelRszd);
-
-																// get end time
-
-																auto end = get_time::now();
-																auto diff = end - start;
-
-																// **** perform logging
-
-																if(myfile.is_open()) {
-
-																								myfile <<"********************************************************** RUN (( " << completer.times << " )) *************************************************************\n\n";
-
-																								myfile << "Important Information\n";
-																								myfile << "For depth image \"" << argv[1] << "\" and segmented image \"" << argv[2] << "\" in the run number " << completer.times << endl;
-
-																								myfile << "\nIn the image, the number of ROWS is :  " << "\t\t\t" << depthIn.rows << "\n\t\tAnd the number of COLUMNS is : " << "\t\t\t" << depthIn.cols << endl;
-
-
-																								myfile <<"\nThe frequency of the cases in run number" << completer.times << endl;
-																								myfile << "\nnumber of case 1  holes = \t" << completer.case1;
-																								myfile << "\nnumber of case 2  holes = \t" << completer.case2;
-																								myfile << "\nnumber of case 3  holes = \t" << completer.case3;
-																								myfile << "\nnumber of case 4  holes = \t" << completer.case4;
-																								myfile << "\nnumber of case 5  holes = \t" << completer.case5;
-																								myfile << "\nnumber of case 6  holes = \t" << completer.case6;
-																								myfile << "\nnumber of case 7  holes = \t" << completer.case7;
-																								myfile << "\nnumber of case 8  holes = \t" << completer.case8;
-																								myfile << "\nnumber of case 9  holes = \t" << completer.case9;
-																								myfile << "\nnumber of case 10 holes = \t" << completer.case10;
-																								myfile << "\nnumber of case 11 holes = \t" << completer.case11;
-																								myfile << "\nnumber of case 12 holes = \t" << completer.case12;
-
-																								myfile <<"\n\nThe TIME:\n";
-																								myfile << "Elapsed time is :  " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count()<< " milliseconds " << "\n\n";
-
-																								myfile <<"********************************************************** RUN (( " << completer.times << " )) *************************************************************\n\n\n\n\n\n";
-
-																}
-
-																// **** end logging
-
-																// check to see of there are any hole pixels left in the image
-
-																for(int i=0; i < (depthIn.rows); i++) { // for loop checking rows for holes
-																								for(int j = 0; j < (depthIn.cols); j++) { // for loop checking columns for holes
-
-																																if(depthIn.at<uchar>(i,j) == 0) { // checking to see if holes remain
-
-																																								if (completer.times == 1) { // the thing has been run ONCE and now we have to flip it
-
-																																																completer.holesExist = 1; // this means holes still exist after the FIRST run
-
-																																																goto nestBreak; //goto is used to break out of a nested loop
-
-																																								} // end of if for when the thing has been run ONCE and we have to flip it
-
-
-																																								else if (completer.times == 2) { // the thing has been run TWICE and flipped already so we now flip it back
-
-																																																completer.holesExist = 2; // this means holes still exist after the SECOND run
-
-																																																goto nestBreak; //goto is used to break out of a nested loop
-
-																																								} // end of else of for when the thing has been run TWICE and flipped already so we now flip it back
-
-																																								else if (completer.times == 3) { // the thing has been run THREE times and flipped twice already
-
-																																																completer.holesExist = 3; // this means holes still exist after the SECOND run
-
-																																																goto nestBreak; //goto is used to break out of a nested loop
-
-																																								} // end of else if for the thing has been run THREE times and flipped twice already
-
-																																} // end of if for checking if holes remain
-
-																								} // end of for loop checking columns for holes
-																} // end of for loop checking rows for holes
-
-nestBreak:
-
-																if((completer.times == 1) && (completer.holesExist == 0)) { // this means it has been run once and all holes are FILLED before any flipping
-
-																								printf("process was run once only and ALL holes are filled.\n");
-
-																} // end of else if for when it has been run once and all holes are FILLED before any flipping
-
-
-																else if((completer.times == 1) && (completer.holesExist == 1)) {
-																								// this means it has been run once and now we must flip to do column-wise
-
-
-																								// flipping all image clockwise
-
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-
-																} // end of if for when it has been run once and now we must flip
-
-																else if((completer.times == 2) && (completer.holesExist == 2)) {
-																								// this means it has been run twice and holes still exist and now we must
-																								// flip again for for a secondary (final) row-wise pass
-
-																								// flipping all image clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-
-																} // end of else if for when it has been run twice and holes still exist and now we must flip
-
-																else if((completer.times == 2) && (completer.holesExist == 1)) {
-																								// this means it has been run twice and all holes are FILLED and now we must flip back
-
-																								// flipping all image counter-clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 0);
-																								flip(labelRszd, labelRszd, 0);
-
-																} // end of else if for when it has been run twice and all holes are FILLED and now we must flip
-
-																else if((completer.times == 3) && (completer.holesExist == 3)) { // this means it has been run THREE and holes still exist
-
-																								// flipping all image clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-																								// flipping all image clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-
-																} // end of else if for when it has been run THREE and holes still exist
-
-																else if((completer.times == 3) && (completer.holesExist == 2)) { // this means it has been run THREE and holes still exist
-
-																								// flipping all image clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-																								// flipping all image clockwise
-																								transpose(depthIn, depthIn);
-																								transpose(labelRszd, labelRszd);
-																								flip(depthIn, depthIn, 1);
-																								flip(labelRszd, labelRszd, 1);
-
-																} // end of else if for when it has been run THREE and holes still exist
-
-								}// end of the main while loop
-
-								// close logging file
-
-								myfile.close();
+								depthOut = completer.identFillHoles(depthIn, labelRszd, true);
 
 								// write filled depth image to file
 
-								writeOutputImg(argv[1], "-FILLED", depthIn);
+								writeOutputImg(argv[1], "-FILLED", depthOut);
 
-								cout << "\nProcess Done.\n";
-								cout << "Process Log: run-times and number of filling cases saved in - \"data.txt\".\n";
 								return 0; // end of program
 
 }// end of main

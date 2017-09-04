@@ -83,7 +83,203 @@ Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd, bool depthNormalize
 
 // *****************************************************************************
 
-Mat DepthComp::identFillHoles(Mat depthIn, const Mat& labelRszd){
+Mat DepthComp::identFillHoles(Mat depthIn, Mat labelRszd, bool logStats){
+
+//to write time and result information to a file
+
+ofstream myfile;
+if (logStats){
+	myfile.open ("data.txt", ios::ate );
+}
+
+// the very main while loop to run several times with rotated image
+// row-wise and then column-wise (with latter being rotation of former)
+// with final secondary row-wise pass if needed
+
+while((times == 0) || ((times == 1) && (holesExist == 1)) ||
+						((times == 2) && (holesExist == 2))) {
+
+								// we are running the same filling process one (more) time
+
+								times++;
+
+								// get start time
+
+								auto start = get_time::now();
+
+								// perform identification and filling of holes - one pass
+
+								depthIn = identFillHolesPass(depthIn, labelRszd);
+
+								// get end time
+
+								auto end = get_time::now();
+								auto diff = end - start;
+
+								// **** perform logging (file will be closed if logStats = false)
+
+								if(myfile.is_open()) {
+
+																myfile <<"********************************************************** RUN (( " << times << " )) *************************************************************\n\n";
+
+																myfile << "Important Information\n";
+																myfile << "For depth image and segmented image pair in the run number " << times << endl;
+
+																myfile << "\nIn the image, the number of ROWS is :  " << "\t\t\t" << depthIn.rows << "\n\t\tAnd the number of COLUMNS is : " << "\t\t\t" << depthIn.cols << endl;
+
+
+																myfile <<"\nThe frequency of the cases in run number " << times << endl;
+																myfile << "\nnumber of case 1  holes = \t" << case1;
+																myfile << "\nnumber of case 2  holes = \t" << case2;
+																myfile << "\nnumber of case 3  holes = \t" << case3;
+																myfile << "\nnumber of case 4  holes = \t" << case4;
+																myfile << "\nnumber of case 5  holes = \t" << case5;
+																myfile << "\nnumber of case 6  holes = \t" << case6;
+																myfile << "\nnumber of case 7  holes = \t" << case7;
+																myfile << "\nnumber of case 8  holes = \t" << case8;
+																myfile << "\nnumber of case 9  holes = \t" << case9;
+																myfile << "\nnumber of case 10 holes = \t" << case10;
+																myfile << "\nnumber of case 11 holes = \t" << case11;
+																myfile << "\nnumber of case 12 holes = \t" << case12;
+
+																myfile <<"\n\nThe TIME:\n";
+																myfile << "Elapsed time is :  " << std::chrono::duration_cast<std::chrono::milliseconds>(diff).count()<< " milliseconds " << "\n\n";
+
+																myfile <<"********************************************************** RUN (( " << times << " )) *************************************************************\n\n\n\n\n\n";
+
+								}
+
+								// **** end logging
+
+								// check to see of there are any hole pixels left in the image
+
+								for(int i=0; i < (depthIn.rows); i++) { // for loop checking rows for holes
+																for(int j = 0; j < (depthIn.cols); j++) { // for loop checking columns for holes
+
+																								if(depthIn.at<uchar>(i,j) == 0) { // checking to see if holes remain
+
+																																if (times == 1) { // the thing has been run ONCE and now we have to flip it
+
+																																								holesExist = 1; // this means holes still exist after the FIRST run
+
+																																								goto nestBreak; //goto is used to break out of a nested loop
+
+																																} // end of if for when the thing has been run ONCE and we have to flip it
+
+
+																																else if (times == 2) { // the thing has been run TWICE and flipped already so we now flip it back
+
+																																								holesExist = 2; // this means holes still exist after the SECOND run
+
+																																								goto nestBreak; //goto is used to break out of a nested loop
+
+																																} // end of else of for when the thing has been run TWICE and flipped already so we now flip it back
+
+																																else if (times == 3) { // the thing has been run THREE times and flipped twice already
+
+																																								holesExist = 3; // this means holes still exist after the SECOND run
+
+																																								goto nestBreak; //goto is used to break out of a nested loop
+
+																																} // end of else if for the thing has been run THREE times and flipped twice already
+
+																								} // end of if for checking if holes remain
+
+																} // end of for loop checking columns for holes
+								} // end of for loop checking rows for holes
+
+nestBreak:
+
+								if((times == 1) && (holesExist == 0)) { // this means it has been run once and all holes are FILLED before any flipping
+
+																myfile << "process was run once only and ALL holes are filled." << endl;
+
+								} // end of else if for when it has been run once and all holes are FILLED before any flipping
+
+
+								else if((times == 1) && (holesExist == 1)) {
+																// this means it has been run once and now we must flip to do column-wise
+
+
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+
+								} // end of if for when it has been run once and now we must flip
+
+								else if((times == 2) && (holesExist == 2)) {
+																// this means it has been run twice and holes still exist and now we must
+																// flip again for for a secondary (final) row-wise pass
+
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+
+								} // end of else if for when it has been run twice and holes still exist and now we must flip
+
+								else if((times == 2) && (holesExist == 1)) {
+																// this means it has been run twice and all holes are FILLED and now we must flip back
+
+																// flipping all image counter-clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 0);
+																flip(labelRszd, labelRszd, 0);
+
+								} // end of else if for when it has been run twice and all holes are FILLED and now we must flip
+
+								else if((times == 3) && (holesExist == 3)) { // this means it has been run THREE and holes still exist
+
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+
+								} // end of else if for when it has been run THREE and holes still exist
+
+								else if((times == 3) && (holesExist == 2)) { // this means it has been run THREE and holes still exist
+
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+																// flipping all image clockwise
+																transpose(depthIn, depthIn);
+																transpose(labelRszd, labelRszd);
+																flip(depthIn, depthIn, 1);
+																flip(labelRszd, labelRszd, 1);
+
+								} // end of else if for when it has been run THREE and holes still exist
+
+}// end of the main while loop
+
+// close logging file
+
+if (logStats){
+	myfile.close();
+	cout << "Process Log: run-times + # filling cases saved in - \"data.txt\".\n";
+}
+
+// return final completed depth image (completion performed in place)
+
+return depthIn;
+
+}
+
+// *****************************************************************************
+
+Mat DepthComp::identFillHolesPass(Mat depthIn, const Mat& labelRszd){
 
 
 								int begin1; // beginning of hole in a row
