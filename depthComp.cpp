@@ -83,17 +83,6 @@ Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd, bool depthNormalize
 
 // *****************************************************************************
 
-void DepthComp::writeImg(const String& imgName, const String& sufix, const Mat& mat)
-{
-								assert(!mat.empty());
-								string delimiter = ".png";
-								string token = imgName.substr(0, imgName.find(delimiter));
-								string outFileName = token + sufix + delimiter;
-								imwrite(outFileName, mat);
-}
-
-// *****************************************************************************
-
 Mat DepthComp::identFillHoles(Mat depthIn, const Mat& labelRszd){
 
 

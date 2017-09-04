@@ -22,6 +22,17 @@ using namespace std;
 
 // *****************************************************************************
 
+void writeOutputImg(const String& imgName, const String& sufix, const Mat& mat)
+{
+								assert(!mat.empty());
+								string delimiter = ".png";
+								string token = imgName.substr(0, imgName.find(delimiter));
+								string outFileName = token + sufix + delimiter;
+								imwrite(outFileName, mat);
+}
+
+// *****************************************************************************
+
 int main( int argc, char** argv ){
 
 								Mat depthIn, labelIn, labelRszd;
@@ -58,7 +69,7 @@ int main( int argc, char** argv ){
 								// perform pre-processing and write output to file
 
 								depthIn = holes.preProcess(depthIn, labelRszd, true);
-								holes.writeImg(argv[1], "-PROCESSED", depthIn);
+								writeOutputImg(argv[1], "-PROCESSED", depthIn);
 
 								//to write time and result information to a file
 								ofstream myfile;
@@ -243,7 +254,7 @@ nestBreak:
 
 								// write filled depth image to file
 
-								holes.writeImg(argv[1], "-FILLED", depthIn);
+								writeOutputImg(argv[1], "-FILLED", depthIn);
 
 								cout << "\nProcess Done.\n";
 								cout << "Process Log: run-times and number of filling cases saved in - \"data.txt\".\n";

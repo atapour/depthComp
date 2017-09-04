@@ -90,8 +90,6 @@ Mat preProcess(Mat depthIn, const Mat& labelIn, bool depthNormalize=true);
 
 Mat identFillHoles(Mat depthIn, const Mat& labelIn);
 
-void writeImg(const String& imgName, const String& preFix, const Mat& mat);
-
 };
 
 #endif
