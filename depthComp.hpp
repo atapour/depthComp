@@ -78,9 +78,10 @@ DepthComp();
 // perform pre-processing on the depth image prior to completion
 // depthIn - input depth
 // labelIn - input segmented label image
+// depthNormalize - perform depth normalization (stretching) for visualization
 // return value - pre-processed depth image
 
-Mat preProcess(Mat depthIn, const Mat& labelIn);
+Mat preProcess(Mat depthIn, const Mat& labelIn, bool depthNormalize=true);
 
 // perform the identification and filling of depth holes
 // depthIn - input depth

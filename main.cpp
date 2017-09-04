@@ -57,7 +57,7 @@ int main( int argc, char** argv ){
 
 								// perform pre-processing and write output to file
 
-								depthIn = holes.preProcess(depthIn, labelRszd);
+								depthIn = holes.preProcess(depthIn, labelRszd, true);
 								holes.writeImg(argv[1], "-PROCESSED", depthIn);
 
 								//to write time and result information to a file
