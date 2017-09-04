@@ -52,6 +52,11 @@ int main( int argc, char** argv ){
 																								cout << "\nCannot open file " << argv[2] << endl;
 																								exit(-1);
 																}
+								} else {
+
+									cout << "Usage: ./depthComp <depth_image> <segmented_image>" << endl;
+									exit(-1);
+
 								}
 
 								// resize label image to depth image size (just in case different)
@@ -81,7 +86,7 @@ int main( int argc, char** argv ){
 								// write filled depth image to file
 
 								writeOutputImg(argv[1], "-FILLED", depthOut);
-								
+
 								return 0; // end of program
 
 }// end of main
