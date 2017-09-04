@@ -83,6 +83,45 @@ Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd, bool depthNormalize
 
 // *****************************************************************************
 
+Mat DepthComp::postProcess(Mat depthIn, const Mat& labelRszd, bool inpaintLeftOvers){
+
+                                                                Mat mask(depthIn.rows, depthIn.cols, CV_8UC1);
+                                                                mask.setTo(Scalar(0));
+
+								for(int i=0; i < (depthIn.rows); i++) { // loop over the rows
+																for (int j = 1; j < (depthIn.cols); j++) { // loop over the column
+
+
+																								if (depthIn.at<uchar>(i, j) == 255) {
+																																depthIn.at<uchar>(i, j) = 0;
+																								}
+																								if (depthIn.at<uchar>(i, j) == 0) {
+  
+mask.at<uchar>(i, j) = 255;
+
+
+								
+
+								// the goal is to remove wrong disparity values
+																								}
+
+																} // end of loop over the columns
+								} // end of loop over the rows
+
+								if (inpaintLeftOvers){
+                                                                	cv::inpaint(depthIn, mask, depthIn, 3, cv::INPAINT_TELEA);
+                                                                }
+
+
+
+								return depthIn;
+}
+
+// *****************************************************************************
+
+
+// *****************************************************************************
+
 Mat DepthComp::identFillHoles(Mat depthIn, Mat labelRszd, bool logStats){
 
 //to write time and result information to a file
@@ -4636,6 +4675,6 @@ Mat DepthComp::identFillHolesPass(Mat depthIn, const Mat& labelRszd){
 
 
 								return depthIn; // end1 of program
-}// end1 of main
+}// end
 
 // *****************************************************************************

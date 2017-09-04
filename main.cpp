@@ -83,6 +83,8 @@ int main( int argc, char** argv ){
 
 								depthOut = completer.identFillHoles(depthIn, labelRszd, true);
 
+								depthOut = completer.postProcess(depthOut, labelRszd, true);
+
 								// write filled depth image to file
 
 								writeOutputImg(argv[1], "-FILLED", depthOut);

@@ -89,6 +89,14 @@ DepthComp();
 
 Mat preProcess(Mat depthIn, const Mat& labelIn, bool depthNormalize=true);
 
+// perform post-processing on the depth image after completion if required
+// depthIn - input depth (N.B. modified inplace)
+// labelIn - input segmented label image
+// inpaintLeftOvers - perform post filling of non-parametrically unresolvable cases if needed
+// return value - post-processed depth image
+
+Mat postProcess(Mat depthIn, const Mat& labelIn, bool inpaintLeftOvers=true);
+
 // perform the identification and filling of depth holes
 // depthIn - input depth (N.B. modified inplace)
 // labelIn - input segmented label image (N.B. modified inplace)
