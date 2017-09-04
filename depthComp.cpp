@@ -1,3 +1,4 @@
+// *****************************************************************************
 /*
  DepthComp : efficient depth filling appraoch built on segmentation
 
@@ -10,11 +11,12 @@ Implementation of DepthComp - Atapour-Abarghouei / Breckon, Proc. BMVC 2017.
  Copyright (c) 2017 Engineering and Computing Sciences, Durham University
  License : GPL - http://www.gnu.org/licenses/gpl.html
 
-***********************************************************************************
+*********************************************************************************
 */
 
 #include "depthComp.hpp"
 
+// *****************************************************************************
 
 DepthComp::DepthComp(){
 
@@ -36,11 +38,13 @@ holesExist = 0; // this is used to check if holes still exist after each run
 holeFound = 0;
 }
 
+// *****************************************************************************
 
 DepthComp::~DepthComp(){
 	// all deallocating is done automatically
 }
 
+// *****************************************************************************
 
 Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd){
 
@@ -73,6 +77,8 @@ Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd){
 	return depthIn;
 }
 
+// *****************************************************************************
+
 void DepthComp::writeImg(const String& imgName, const String& sufix, const Mat& mat)
 {
 	assert(!mat.empty());
@@ -82,7 +88,7 @@ void DepthComp::writeImg(const String& imgName, const String& sufix, const Mat& 
 	imwrite(outFileName, mat);
 }
 
-
+// *****************************************************************************
 
 Mat DepthComp::identFillHoles(Mat depthIn, const Mat& labelRszd){
 
@@ -4442,3 +4448,5 @@ Mat DepthComp::identFillHoles(Mat depthIn, const Mat& labelRszd){
 
 	return depthIn;  // end1 of program
 }// end1 of main
+
+// *****************************************************************************
