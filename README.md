@@ -32,7 +32,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./depthComp ./../Examples/city-disp.png ./../Examples/city-label.png)
+$ ./depthComp ./../Examples/city1-depth.png ./../Examples/city1-seg.png)
 ```
 
 The output results are written in the 'Examples' directory (with depth output using the same quantization range as the input):
