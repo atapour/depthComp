@@ -49,13 +49,13 @@ DepthComp::~DepthComp(){
 Mat DepthComp::preProcess(Mat depthIn, const Mat& labelRszd, bool depthNormalize){
 
 								if (depthNormalize){
-									normalize(depthIn, depthIn, 0, 255, CV_MINMAX);
+									normalize(depthIn, depthIn, 0, 255, NORM_MINMAX);
 								}
 								depthIn.convertTo(depthIn, CV_16SC1);
 								filterSpeckles(depthIn, 0, 200, 1);
 								depthIn.convertTo(depthIn, CV_8UC1);
 								if (depthNormalize){
-									normalize(depthIn, depthIn, 0, 255, CV_MINMAX);
+									normalize(depthIn, depthIn, 0, 255, NORM_MINMAX);
 								}
 
 								// the goal is to remove wrong disparity values

@@ -22,8 +22,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <opencv2/photo/photo.hpp>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+// #include <opencv2/cv.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/calib3d/calib3d.hpp>

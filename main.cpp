@@ -66,8 +66,8 @@ int main( int argc, char** argv ){
 								// normalize (stretch) labels and convert to grayscale to ensure unqiue
 								// mapping (for low numbers of labels, i.e. < 255)
 
-								normalize(labelRszd, labelRszd, 0, 255, CV_MINMAX);
-								cvtColor(labelRszd, labelRszd, CV_BGR2GRAY);
+								normalize(labelRszd, labelRszd, 0, 255, NORM_MINMAX);
+								cvtColor(labelRszd, labelRszd, COLOR_BGR2GRAY);
 
 								// define depth completion object
 
