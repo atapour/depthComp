@@ -32,11 +32,11 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./depthComp ./../Examples/city1-depth.png ./../Examples/city1-seg.png)
+$ ./depthComp ./../Examples/city1_depth.png ./../Examples/city1_seg.png)
 ```
 
 The output results are written in the 'Examples' directory:
-* the file with the suffix "-PROCESSED" is the despeckled depth image.
+* the file with the suffix "-PROCESSED" is the de-speckled depth image.
 * the file with the suffix "-FILLED" is the filled depth image.
 * The file "data.txt" contains information about run-time and number of cases.
 
