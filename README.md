@@ -6,7 +6,7 @@ Requires [OpenCV](http://www.opencv.org), C++, and CMake.
 
 ## Method:
 
-_"We address plausible hole filling in depth images in a computationally lightweight methodology that leverages recent advances in semantic scene segmentation. Firstly, we perform such segmentation over a co-registered color image, commonly available from stereo depth sources, and non-parametrically fill missing depth values based on a multipass basis within each semantically labeled scene object. Within this formulation, we identify a bounded set of explicit completion cases in a grammar inspired context that can be performed effectively and efficiently to provide highly plausible localized depth continuity via a case-specific non-parametric completion approach. Results demonstrate that this approach has complexity and efficiency comparable to conventional interpolation techniques but with accuracy analogous to contemporary depth filling approaches. Furthermore, we show it to be capable of fine depth relief completion beyond that of both contemporary approaches in the field and computationally comparable interpolation strategies."_
+_"We address plausible hole filling in depth images in a computationally lightweight methodology that leverages recent advances in semantic scene segmentation. Firstly, we perform such segmentation over a co-registered color image, commonly available from stereo depth sources, and non-parametrically fill missing depth values on a multi-pass basis within each semantically labelled scene object. Within this formulation, we identify a bounded set of explicit completion cases in a grammar inspired context that can be performed effectively and efficiently to provide highly plausible localized depth continuity via a case-specific non-parametric completion approach. Results demonstrate that this approach has complexity and efficiency comparable to conventional interpolation techniques but with accuracy analogous to contemporary depth filling approaches. Furthermore, we show it to be capable of fine depth relief completion beyond that of both contemporary approaches in the field and computationally comparable interpolation strategies."_
 
 [[Atapour-Abarghouei, Breckon, Proc. BMVC, 2017](http://breckon.eu/toby/publications/papers/abarghouei17depthcomp.pdf)]
 
@@ -15,7 +15,7 @@ _"We address plausible hole filling in depth images in a computationally lightwe
 ## Reference implementation:
 Produces a completed depth (disparity) map output image based on a depth (disparity) input with holes and a corresponding segmented label image.
 * The input depth map will be preprocessed beforehand and small speckles of invalid depth will be removed (see code for settings).
-* The input segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated from RGB images via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendel at al, 2015).
+* The input segmented image (produced by any method) is required as an input in addition to the depth - segmented examples can be generated from RGB images via [SegNet](http://mi.eng.cam.ac.uk/projects/segnet/) (Kendall at al, 2015).
 * The quality of the output depends on the quality of the segmented image.
 * The code can be run using the test harness: ./depthComp <path_to_depth_image> <path_to_segmented_image>
 * Example images are provided in the Examples sub-directory.
@@ -32,7 +32,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ ./depthComp ./../Examples/city1_depth.png ./../Examples/city1_seg.png)
+$ ./depthComp ../Examples/city1_depth.png ../Examples/city1_seg.png
 ```
 
 The output results are written in the 'Examples' directory:
